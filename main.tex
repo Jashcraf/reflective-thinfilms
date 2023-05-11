@@ -1,0 +1,57 @@
+\documentclass[]{spie}  %>>> use for US letter paper
+%\documentclass[a4paper]{spie}  %>>> use this instead for A4 paper
+%\documentclass[nocompress]{spie}  %>>> to avoid compression of citations
+
+\renewcommand{\baselinestretch}{1.0} % Change to 1.65 for double spacing
+ 
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Method of Mitigating Polarization Aberrations in Reflective Telescopes: Homogeneous Thin Films}
+
+\author[a]{Jaren N. Ashcraft}
+\author[b]{Brandon Dube}
+\author[b]{Nasrat Raouf}
+\author[c]{Ramya Anche}
+\author[c]{Ewan S. Douglas}
+\author[a,c,d]{Daewook Kim}
+\author[b]{Brian Monacelli}
+\author[b]{A.J.E Riggs}
+\affil[a]{James C. Wyant College of Optical Sciences, University of Arizona, Meinel Building 1630 E. University Blvd., Tucson, AZ. 85721, USA}
+\affil[b]{Jet Propulsion Laboratory, California Institute of Technology, 4800 Oak Grove Drive, Pasadena, CA 91109, USA}
+\affil[c]{Department of Astronomy and Steward Observatory, University of Arizona, 933 N. Cherry Ave., Tucson, AZ 85721, USA}
+\affil[d]{Large Binocular Telescope Observatory, University Of Arizona, 933 N. Cherry Ave. Tucson, AZ 85721, USA} 
+
+
+\authorinfo{Further author information: (Send correspondence to A.A.A.)\\A.A.A.: E-mail: aaa@tbk2.edu, Telephone: 1 505 123 1234\\  B.B.A.: E-mail: bba@cmp.com, Telephone: +33 (0)1 98 76 54 32}
+
+% Option to view page numbers
+\pagestyle{empty} % change to \pagestyle{plain} for page numbers   
+\setcounter{page}{301} % Set start page numbering at e.g. 301
+ 
+\begin{document} 
+\maketitle
+
+\begin{abstract}
+Next-generation ground and space telescopes aim to characterize earthlike exoplanets at closer angular separations and deeper contrasts that have been demonstrated before. One of the key factors limiting the performance of these instruments is the aberration of the wavefront due to polarization. Polarization aberrations present a unique problem in high-contrast imaging, because the orthogonally polarized parts of the incoming field are incoherent. This means that standard wavefront control techniques will be incapable of removing the aberration from both polarization states. A new method of controlling the polarization aberrations in astronomical telescopes is necessary to meet the contrast goals set by the Habitable Worlds Observatory and the Giant Segmented Mirror Telescopes. We outline a method of polarization aberration control using optimized thin-film multilayer stacks to minimize the contrast degradation in a 6 meter off-axis space telescope, and a 30 meter on-axis ground telescope. By optimizing the spatially-varying thickness of the multilayer thin film stacks, we are able to reduce the polarization leakage of a vector vortex coronagraph by an order of magnitude. We also conduct a Monte Carlo tolerance analysis to analyze the sensitivity of our optimized thin films to manufacturing errors. Polarization aberration minimized to X pico meter across Y-Z wavelengths.
+\end{abstract}
+
+% Include a list of keywords after the abstract 
+\keywords{Manuscript format, template, SPIE Proceedings, LaTeX}
+\include{s1_Introduction}
+\include{s2_Methods}
+\include{s3_Results}
+\include{s4_Discussion}
+
+\acknowledgments % equivalent to \section*{ACKNOWLEDGMENTS}       
+ 
+This unnumbered section is used to identify those who have aided the authors in understanding or accomplishing the work presented and to acknowledge sources of funding.  
+
+% References
+\bibliography{report} % bibliography data in report.bib
+\bibliographystyle{spiebib} % makes bibtex use spiebib.bst
+
+\end{document} 

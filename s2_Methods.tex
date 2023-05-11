@@ -1,0 +1,142 @@
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Thin film characteristic matrix}
+The Fresnel equations are sufficient for describing uncoated optical surfaces, but rarely is this the case. Most optical surfaces have thin dielectric coatings to enhance the transmitted or reflected signal. These coatings can be inhomogeneous, which can cause further polarization aberration. To accurately capture these effects, we need a method of computing an effective Fresnel reflection coefficient. This is commonly done (assuming the coatings are isotropic) by computing the characteristic matrix of the dielectric stack\cite{BYU,Chipman}. The derivation for these is quite involved so it will not be recreated here, but the full derivation and set of equations is shown in the free online textbook by Peatross and Ware\cite{BYU}. For p-polarized light, the characteristic matrix $A^{(p)}$ is given by the following relation.
+
+\begin{equation}
+    A^{(p)} = \frac{1}{2n_{o}cos(\theta_{o})}
+    \begin{pmatrix}
+        n_{o} & cos(\theta_{o}) \\
+        n_{o} & -cos(\theta_{o}) \\
+    \end{pmatrix}
+    \prod_{j=1}^{N} M_{j}^{(p)}
+    \begin{pmatrix}
+        cos(\theta_{N+1}) & 0 \\
+        n_{N+1} & 0 \\
+    \end{pmatrix}
+\end{equation}
+
+Where $M_{j}^{(p)}$ is the j-th matrix of a layer in the thin film coating described by
+\begin{equation}
+    M_{j}^{(p)} = 
+    \begin{pmatrix}
+        cos(\beta_{j}) & -isin(\beta_{j})cos(\theta_{j})/n_{j} \\
+        -in_{j}sin(\beta_{j})/cos(\theta_{j}) &  cos(\beta_{j})  \\
+    \end{pmatrix}
+\end{equation}
+
+And $B_{j}$ is the optical path length along the propagation direction in the dielectric film defined by the path length from the first interface.
+
+\begin{equation}
+    \beta_{j} = 
+    \begin{cases}
+        0 & j = 0 \\
+        k_{j}d_{j}cos(\theta_{j}) & 1 \leq j \leq N \\
+    \end{cases}
+\end{equation}
+
+Similarly for the s-polarized characteristic matrix, we have
+
+\begin{equation}
+    A^{(s)} = \frac{1}{2n_{o}cos(\theta_{o})}
+    \begin{pmatrix}
+        n_{o}cos(\theta_{o}) & 1 \\
+        n_{o}cos(\theta_{o}) & -1 \\
+    \end{pmatrix}
+    \prod_{j=1}^{N} M_{j}^{(s)}
+    \begin{pmatrix}
+        1 & 0 \\
+        n_{N+1}cos(\theta_{N+1}) & 0 \\
+    \end{pmatrix}
+\end{equation}
+
+Where $M_{j}^{(s)}$ is
+
+\begin{equation}
+    M_{j}^{(s)} = 
+    \begin{pmatrix}
+        cos(\beta_{j}) & -isin(\beta_{j})/n_{j}cos(\theta_{j}) \\
+        -in_{j}sin(\beta_{j})cos(\theta_{j}) &  cos(\beta_{j})  \\
+    \end{pmatrix}
+\end{equation}
+
+The effective Fresnel transmission and reflection coefficients are then derived simply in terms of the characteristic matrices.
+
+\begin{equation}
+    t_{p}^{tot} = \frac{1}{a_{00}^{(p)}}
+\end{equation}
+
+\begin{equation}
+    r_{p}^{tot} = \frac{a_{10}^{(p)}}{a_{00}^{(p)}}
+\end{equation}
+
+\begin{equation}
+    t_{s}^{tot} = \frac{1}{a_{00}^{(s)}}
+\end{equation}
+
+\begin{equation}
+    r_{s}^{tot} = \frac{a_{10}^{(s)}}{a_{00}^{(s)}}
+\end{equation}
+
+These physics were implemented in the open-source polarization ray tracing package, Poke.
+
+\subsection{Poke: Integrating ray and diffraction models}
+Poke is an open-source Python package that has been used for polarization ray tracing simulations of the GSMT's. It features highly vectorized PRT calculations and for this investigation we added the ability to use PRT with multilayer thin film stacks. The accelerated computing is useful for running optimization cycles rapidly.
+
+\begin{figure}
+    \centering
+    % \includegraphics{}
+    \caption{Runtime to compute Jones pupil v.s. number of rays traced}
+    \label{fig:my_label}
+\end{figure}
+
+\subsection{Constant raypaths, variable films}
+Keep the orthogonal transformations the same, change the fresnel coefficients
+
+\subsection{Telescope Architectures for Design Study}
+6 meter space telescope, 30m ground telescope. These don't have to be official, but can be simmilar enough in geometry to be relevant.
+
+\subsection{Optimization methodology}
+Polarization ray tracing is conducted via a matrix product of the constituent PRT matrices to produce the system PRT matrix ($\mathbf{P}_{tot}$ in equation \ref{eq:prt_prod})
+
+\begin{equation}
+    \mathbf{P}_{tot} = \prod_{i=0}^{Q} \mathbf{P}_{i}
+    \label{eq:prt_prod}
+\end{equation}
+
+The $i$-th PRT matrix is simply a product of two orthogonal transformation matrices ($\mathbf{O}$) with a diagonal jones matrix.
+
+\begin{equation}
+    \mathbf{P}_{i} = \mathbf{O}_{out,i} 
+    \begin{pmatrix}
+        \Lambda_{s} & 0 & 0 \\
+        0 & \Lambda_{p} & 0 \\
+        0 & 0 & 1 \\
+    \end{pmatrix}
+    \mathbf{O}_{in,i}^{-1}
+\end{equation}
+
+Where $\Lambda_{s},\Lambda_{p}$ are the fresnel coefficients for s- and p- polarizations, respectively. The matrices for orthogonal transformation are determined by the wave vector $\mathbf{k}$ and corresponding eigenpolarizations of the local surface interaction $\mathbf{s}$ and $\mathbf{p}$.
+
+\begin{equation}
+    \mathbf{O} = 
+    \begin{pmatrix}
+        s_{x} & s_{y} & s_{z} \\
+        p_{x} & p_{y} & p_{z} \\
+        k_{x} & k_{y} & k_{z} \\
+    \end{pmatrix}
+\end{equation}
+
+The orthogonal transformation matrices are uniquely determined by the ray paths through the optical system. In the limit of interactions with thin film optical filters on entirely reflective optical systems, the raypaths through these optical systems do not change as a function of the film thickness or wavelength. This means that the orthogonal transformation matrices need only be computed once per optimization procedure, and the only operation that needs to be updated per optimization iteration is the computation of the Jones pupil.
+
+The cost function we define is a simple summation over the ray index ($i$) and wavelengths ($\lambda$) of the polarization aberrations normalized by the total number of pixels ($N$). 
+
+\begin{equation}
+    \mathcal{C} = \sum_{\lambda = 600nm}^{800nm} \sum_{i=0}^{N} \frac{\delta_{i}^{2}}{N} + \frac{\mathcal{D}_{i}^{2}}{N} + \frac{(1-\mathcal{R}_{i})^{2}}{N}
+\end{equation}
+
+
+
+
+
