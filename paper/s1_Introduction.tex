@@ -46,4 +46,87 @@ Next-generation telescopes for astronomy will largely take two forms. The ground
 \end{table}
 
 \subsection{Polarization Aberrations}
-Breckenridge, McGuire, Chipman
+Polarization aberrations are a physical optics phenomena that has recently gained attention in the high-contrast imaging community. The goal of directly imaging exoplanets in reflected light at small angular separations is extremely sensitive to aberrations of low spatial order. Polarization aberrations arise when a beam has variable angle of incidence across against a given optical surface. The fundamental theory of polarization aberration was derived by McGuire and Chipman\cite{mcguire_rotationally_symmetric,mcguire_nonrotsymm}, and was discussed in the context of high-contrast imaging by Breckenridge\cite{breckenridge_the_psf}. The aberrations described are typically of low amplitude, but largely manifest as phase and amplitude aberrations with the same geometry as second-order aberrations (tilt, defocus) and astigmatism. The phase aberrations are described by retardance ($\delta$, shown in Equation \ref{eq:retardance}), which describes the phase delay between orthogonal polarization states of a given beam.
+
+\begin{equation}
+	\delta = \phi_{s} - \phi_{p}
+	\label{eq:retardance}
+\end{equation}
+
+Where $\phi_{s},\phi_{p}$ are the phases of orthogonal $s-$ and $p-$polarizations, respectively. The amplitude aberrations are described by diattenuation ($D$, shown in Equation \ref{eq:diattenuation})
+
+\begin{equation}
+	D = \frac{A_{s} - A_{p}}{A_{s} + A_{p}}	
+	\label{eq:diattenuation}
+\end{equation}
+
+Where $A_{s},A_{p}$ are the amplitudes of orthogonal $s-$ and $p-$polarizations, respectively. Polarization aberrations can be completely decomposed into diattenuation and retardance, which we must compute for every point in the exit pupil of our prototype reflective telescopes.
+
+\subsection{Polarization Ray Tracing and The Jones Pupil}
+The Jones Pupil is an integral tool in the analysis of an optical system's polarization aberrations. To construct the Jones Pupil, we must construct a full three-dimensional polarization ray trace (PRT) of the optical system. We refer readers interested in the exact mechanics of this technique to the extensive literature that covers its implementation\cite{Yun_1,Yun_2,Chipman_2018}. The basic principle of PRT is to represent each surface in an optical system by a $3\times3$ PRT matrix $\Pq$, which is composed of a diagonal matrix $\mathbf{J}_{q}$ and two orthogonal transformation matrices $\mathbf{O}_{in},\mathbf{O}_{out}$ (shown in Equation \ref{eq:prtmatrix}).
+
+\begin{equation}
+	\Pq = \mathbf{O}_{out} \mathbf{J}_{q} \mathbf{O}_{in}^{-1} = 
+	\mathbf{O}_{out}
+	\begin{pmatrix}
+		r_{s,q} & 0 & 0 \\
+		0 & r_{p,q} & 0 \\
+		0 & 0 & 1 \\
+	\end{pmatrix}
+	\mathbf{O}_{in}^{-1}
+	\label{eq:prtmatrix}
+\end{equation}
+
+Where $\mathbf{J}_{q}$ contains our complex reflection coefficients for the light-matter interaction. The optical system can then be represented by a matrix product of these PRT matrices, shown in Equation \ref{eq:matprodP},
+
+\begin{equation}
+	\mathbf{P}_{total} = \prod_{q = 1}^{Q} \Pq.
+	\label{eq:matprodP}
+\end{equation}
+
+The resulting $\mathbf{P}_{total}$ matrix represents the three-dimensional transformation of any polarization state in the entrance pupil to the exit pupil in global coordinates. To analyze the influence on the point-spread function (PSF) of optical systems, we must transform the PRT matrix into the coordinates of the exit pupil of the instrument we want to analyze. There are several methods in the litterature detailing how to perform this transformation\cite{chipman}. For this investigation, we elect to conduct this transformation using the double-pole basis due to its insensitivity to polarization singularities in the resultant pupil.
+
+Deriving the double-pole basis vectors begins with the selection of a direction for the \emph{anti-pole} $a_{loc}$. This is the direction opposite the two coincident poles in the vector field. We generally chose this to be the point where the optical axis intersects the exit pupil because we are interested in generating Jones pupils for diffraction models. When a suitable $a_{loc}$ is chosen, the first basis vector must be chosen for this point. In practice this choice is constrained to be orthogonal to the propagation direction because this is the plane light is confined to, but can otherwise be specified arbitrarily. We chose the first basis vector to be the horizontal dimension of our Jones pupil $x_{o}$. The next basis vector is orthogonal to both $a_{loc}$ and $x_{o}$, so it is defined by their cross product.
+
+\begin{equation}
+	y_{o} = a_{loc} \times x_{o}
+\end{equation}
+
+The multiplication order is chosen to maintain a right-handed coordinate system. To construct a set of double-pole basis vectors the basis vectors $x_{o}$ and $y_{o}$ are rotated by an angle $\theta_{dbl}$ about an axis $\vec{r}_{dbl}$.
+
+\begin{equation}
+	\theta_{dbl} = -arccos(\vec{k}_{Q} \cdot \vec{a_{loc}})
+	\label{eq:rot_angle}
+\end{equation}
+
+\begin{equation}
+	\vec{r}_{dbl} = \vec{k}_{Q} \times \vec{a_{loc}}
+	\label{eq:rot_vec}
+\end{equation}
+
+This is accomplished using a rotation matrix expressed in terms of equations \ref{eq:rot_angle} and \ref{eq:rot_vec} where $s = sin(\theta_{dbl})$ and $c = cos(\theta_{dbl})$ and $r_{x,y,z}$ are the scalar components of the vector $r_{dbl}$. 
+
+\begin{equation}
+	\mathbf{R} = 
+	\begin{pmatrix}
+		(1-c)r_{x}^{2} + c & (1-c)r_{x}r_{y} - sr_{z} & (1-c)r_{x}r_{z} + sr_{y} \\
+		(1-c)r_{y}r_{x} + sr_{z} & (1-c)r_{x}^{2} + c & (1-c)r_{y}r_{z} - sr_{x}\\
+		(1-c)r_{z}r_{x} - sr_{y} & (1-c)r_{y}r_{z} + sr_{x} & (1-c)r_{z}^{2} + c \\
+	\end{pmatrix}
+\end{equation}
+
+The basis vectors are computed by multiplying $x_{o}$ and $y_{o}$ by $R$.
+
+\begin{equation}
+	<x_{loc},y_{loc}> = <R x_{o}, R y_{o}> 
+\end{equation}
+
+This operation rotates the basis vectors about the wavefront at the plane of interest based on the direction of the wave vector to be tangent to the wavefront. This operation is done at both the entrance and exit pupil spheres to create the orthogonal transformation matrices $O_{XP}$ and $O_{EP}$ using the format of equation \ref{eq:compute_Oin} and \ref{eq:compute_Oout}. Equation \ref{eq:compute_Jtot} will yield the final Jones pupil.
+
+\begin{equation}
+	J_{tot} = O_{XP}^{-1} P_{tot} O_{EP}
+	\label{eq:compute_Jtot}
+\end{equation}
+
+
+
