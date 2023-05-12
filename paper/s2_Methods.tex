@@ -88,11 +88,10 @@ Therefore, we choose thickness as our primary variable of optimization. To perfo
 	\label{eq:thickness_expand}
 \end{equation}
 
-and elect to optimize the coefficients of these polynomials $a_{i}$. 
-
+These physics were implemented in the open-source Python package Poke, which supports polarization ray tracing so that we can perform optimizations on the thin film stacks.
 
 \subsection{Poke: Integrating ray and diffraction models}
-Poke is an open-source Python package that has been used for polarization ray tracing simulations of the GSMT$  $'s. It features highly vectorized PRT calculations and for this investigation we added the ability to use PRT with multilayer thin film stacks. The accelerated computing is useful for running optimization cycles rapidly.
+Poke is an open-source Python package that was originally developed to simulate the polarization aberrations of astronomical telescopes\cite{anche_gsmts}. It allows the user to perform PRT calculations independent of the ray tracer used, effectively open-sourcing physical optics calculations. For this study, we vectorized the Jones pupil computation so that optimizations can be performed in a reasonable time.
 
 \begin{figure}
     \centering
