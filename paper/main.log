@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.26)  11 MAY 2023 20:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.10.26)  12 MAY 2023 13:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -432,7 +432,11 @@ LaTeX Warning: Citation `BYU' on page 305 undefined on input line 7.
 
 
 
-] [306]) [307]
+]
+
+LaTeX Warning: Citation `anche_gsmts' on page 306 undefined on input line 94.
+
+[306]) [307]
 \openout2 = `s3_Results.aux'.
 
  (./s3_Results.tex) [308
@@ -448,8 +452,8 @@ LaTeX Warning: Citation `BYU' on page 305 undefined on input line 7.
 
 
 
-]
-(./main.aux (./s1_Introduction.aux) (./s2_Methods.aux) (./s3_Results.aux)
+] (./main.aux
+(./s1_Introduction.aux) (./s2_Methods.aux) (./s3_Results.aux)
 (./s4_Discussion.aux))
 
 LaTeX Warning: There were undefined references.
@@ -458,10 +462,10 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 71879A5DCFA4E18368DD387A818E5981;2838.
  ) 
 Here is how much of TeX's memory you used:
- 9373 strings out of 478994
- 134322 string characters out of 5858183
+ 9374 strings out of 478994
+ 134335 string characters out of 5858183
  443065 words of memory out of 5000000
- 26642 multiletter control sequences out of 15000+600000
+ 26643 multiletter control sequences out of 15000+600000
  413842 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,8n,74p,1404b,386s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -481,7 +485,7 @@ ve/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/
 021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/202
 1/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2021
 /texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (9 pages, 203359 bytes).
+Output written on main.pdf (9 pages, 203487 bytes).
 PDF statistics:
  214 PDF objects out of 1000 (max. 8388607)
  186 compressed objects within 2 object streams
