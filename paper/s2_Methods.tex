@@ -79,10 +79,10 @@ The effective Fresnel transmission and reflection coefficients are then derived 
     r_{s}^{tot} = \frac{a_{10}^{(s)}}{a_{00}^{(s)}}
 \end{equation}
 
-These physics were implemented in the open-source polarization ray tracing package, Poke.
+These physics were implemented in the open-source Python package Poke, which supports polarization ray tracing so that we can perform optimizations on the thin film stacks.
 
 \subsection{Poke: Integrating ray and diffraction models}
-Poke is an open-source Python package that has been used for polarization ray tracing simulations of the GSMT's. It features highly vectorized PRT calculations and for this investigation we added the ability to use PRT with multilayer thin film stacks. The accelerated computing is useful for running optimization cycles rapidly.
+Poke is an open-source Python package that was originally developed to simulate the polarization aberrations of astronomical telescopes\cite{anche_gsmts}. It allows the user to perform PRT calculations independent of the ray tracer used, effectively open-sourcing physical optics calculations. For this study, we vectorized the Jones pupil computation so that optimizations can be performed in a reasonable time.
 
 \begin{figure}
     \centering
