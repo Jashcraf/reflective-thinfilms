@@ -64,19 +64,26 @@ Where $M_{j}^{(s)}$ is
 The effective Fresnel transmission and reflection coefficients are then derived simply in terms of the characteristic matrices.
 
 \begin{equation}
-    t_{p}^{tot} = \frac{1}{a_{00}^{(p)}}
-\end{equation}
-
-\begin{equation}
     r_{p}^{tot} = \frac{a_{10}^{(p)}}{a_{00}^{(p)}}
 \end{equation}
 
 \begin{equation}
-    t_{s}^{tot} = \frac{1}{a_{00}^{(s)}}
+    r_{s}^{tot} = \frac{a_{10}^{(s)}}{a_{00}^{(s)}}
 \end{equation}
 
+To optimize these reflection coefficients we must express one of the parameters in the above expression as a variable. To do so we look to the phase thickness $\beta_{j}$. This parameter is a function of refractive index, wavelength, angle of incidence, and film thickness. Of these variables:
+\begin{itemize}
+	\item The refractive index can be chosen, but is not a continuous function that we can vary
+	\item The wavelength is a set quantity
+	\item The angle of incidence is set by the instrument. Changing it would result in scalar wavefront aberrations, which would further impede performance.
+	\item The film thickness is not explicitly constrained
+\end{itemize}
+
+Therefore, we choose thickness as our primary variable of optimization. To perform an expeditious optimization of the thin film thickness, it is convenient to lower the dimensionality of the problem. We expand the thickness of the $j$-th film as a sum over $N$ low-order polynomials $Z_{i}$, as shown in Equation \ref{eq:thickness_expand}
+
 \begin{equation}
-    r_{s}^{tot} = \frac{a_{10}^{(s)}}{a_{00}^{(s)}}
+	d_{j} = \sum_{i = 0}^{N} a_{i} Z_{i},
+	\label{eq:thickness_expand}
 \end{equation}
 
 These physics were implemented in the open-source Python package Poke, which supports polarization ray tracing so that we can perform optimizations on the thin film stacks.
